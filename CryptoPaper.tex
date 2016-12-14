@@ -347,14 +347,9 @@
 % was not built to handle multiple paragraphs
 %
 
+
 \author{Terence O'Brien,
-        Ian Perry
-% <-this % stops a space
-\thanks{M. Shell was with the Department
-of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta,
-GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this % stops a space
-\thanks{J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
-\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
+        Ian Perry}
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -537,6 +532,31 @@ Secure Cryptoprocessors form the heart of many security based devices.  The Prim
 In Figure \ref{coprocessorDiagram} a secure cryptoprocessor block diagram can be seen.  Although this particular processor is from a theoretical white paper, it will serve to demonstrate operations.  As can be expected, scant details are the norm regarding anything to do with security, especially so with cryptography.  At the peripherary of the block diagram is the physical security boundary.  This construct is common to all cryptoprocessors and is the demarcation point where no unencrypted information is allowd to pass.  All keys, all processing, must occur and be stored behind that boundary, unless it has been encrypted.  This boundary is not only figurative, it is a literal physical boundary.  The processor is enmeshed in a conductive grid \cite{coprocesserWhitePaper} which allows any physical tampering to be detected.  In the event that tampering is detected, the key material, at the very least, is deleted by zeroizing the memory.  Ideally the operating system is also zeroized along with any other information.  In this way, it can be assured that key material on the chip stays on the chip, and can not be removed, at least in a physical manner.
 
 \subsection{Random Number Generator}
+
+The implementation of a random number generator is of paramount importance for cryptographic purposes.  For this reason researchers designed special hardware to go in Intel chips that was power efficient and obeyed common cryptographic standards \cite{IEEERNG}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=8cm,keepaspectratio]{img/transistorRNG.png}
+	\caption{Random Number Generator Hardware \cite{IEEERNG} }
+	\label{transistorFig}
+\end{figure}
+
+The design consists only of two transistors and two inverters and can be seen in Figure \ref{transistorFig}.  Typically in digital systems the goal is to have only logic 1’s and 0’s.  However when designing a random number generator, teetering that can sometimes happen in digital logic is a good thing and can even be exploited.  When the clock in this design hits and the two transistors allow nodes A and B to be at a logic 1, the inverters are fighting to determine which is going to invert from a 0 to a 1 or from a 1 to a 0.  This fighting is called metastability and always ends in a random winner determined by such chaotic things as thermal noise and random atomic vibrations.
+
+Just one of these digital circuits wouldn’t be enough.  Small variations in the fabrication process can cause differences in the inverters and even lead to either 1 or 0 being favored.  To circumvent such a problem, designers built a feedback loop into the hardware that ensures the two possible outcomes occur roughly equal amounts of the time.
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=8cm,keepaspectratio]{img/rngProcess.png}
+	\caption{Random Number Generator Hardware \cite{IEEERNG} }
+	\label{rngFig}
+\end{figure}
+
+
+
+Most pseudorandom number generation algorithms require the initial seed be something like a 256-bit number.  Intel’s design goes a step further than just sampling their inverter logic 256 times, it instead samples 512-bits and performs a cryptographic operation combining both 256-bit halves into one very random 256-bit number that can finally be used in a proven pseudorandom number generator.  Finally this algorithm can produce random number at very high frequencies.  The instruction RdRand was introduced with this hardware to access 16-, 32-, or 64-bit random values from the Intel chips.  A diagram of this process may be seen in Figur \ref{rngFig}.
 
 \subsection{SSL Acceleration}
 
@@ -770,6 +790,9 @@ R. C., "AES-NI in Laymen’s Terms," in Intel, 2012. [Online]. Available: https:
 
 \bibitem{AES2}
 J. Rott, "Intel® Advanced Encryption Standard Instructions (AES-NI)," in Intel, 2012. [Online]. Available: https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-instructions-aes-ni. Accessed: Dec. 14, 2016.
+
+\bibitem{IEEERNG}
+G. Taylor and G. Cox, "Behind Intel’s new random-number generator," in IEEE, IEEE Spectrum: Technology, Engineering, and Science News, 2011. [Online]. Available: http://spectrum.ieee.org/computing/hardware/behind-intels-new-randomnumber-generator. Accessed: Dec. 14, 2016.
 
 \end{thebibliography}
 
