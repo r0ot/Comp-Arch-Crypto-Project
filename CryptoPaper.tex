@@ -529,6 +529,10 @@ In Figure \ref{coprocessorDiagram} a secure cryptoprocessor block diagram can be
 
 \subsection{SSL Acceleration}
 
+In recent years, there has been a push to shift all web pages with a login to only allow HTTPS connections.  Not just for ecommerce or banking pages, but for email and even social media.  Google has begun to incentivize web page owners to implement HTTPS \ref{httpsPush} by favoring pages with implemented SSL in its search page rankings.  Further, all ecommerce is conducted over HTTPS.  What this amounts to is that large web servers must handle many thousands of SSL sessions per second.  As asymetric encryption is much more expensive computationally, hardware which can offload this processing is invaluable.
+
+To this effect, SSL Accelerators were created to perform just such a function.  Specialized hardware 
+
 \subsection{Hardware Security Modules}
 
 \section{Instruction Set Extensions}
@@ -720,6 +724,9 @@ J. Salowey and A. Choudhury, “AES Galois Counter Mode (GCM) Cipher Suites for 
 “Building a high-performance, programmable secure coprocessor,” Comput.
 Netw., vol. 31, no. 9, pp. 831–860, Apr. 1999. [Online]. Available:
 http://dl.acm.org/citation.cfm?id=324119.324128
+
+\bibitem{httpsPush}
+D. Goodin, "In major shift, Google boosts search rankings of HTTPS-protected sites," Ars Technica, 2014. [Online]. Available: http://arstechnica.com/security/2014/08/in-major-shift-google-boosts-search-rankings-of-https-protected-sites/. Accessed: Dec. 14, 2016.
 
 \end{thebibliography}
 
