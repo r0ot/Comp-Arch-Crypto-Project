@@ -529,11 +529,26 @@ In Figure \ref{coprocessorDiagram} a secure cryptoprocessor block diagram can be
 
 \subsection{SSL Acceleration}
 
-In recent years, there has been a push to shift all web pages with a login to only allow HTTPS connections.  Not just for ecommerce or banking pages, but for email and even social media.  Google has begun to incentivize web page owners to implement HTTPS \ref{httpsPush} by favoring pages with implemented SSL in its search page rankings.  Further, all ecommerce is conducted over HTTPS.  What this amounts to is that large web servers must handle many thousands of SSL sessions per second.  As asymetric encryption is much more expensive computationally, hardware which can offload this processing is invaluable.
+In recent years, there has been a push to shift all web pages with a login to only allow HTTPS connections.  Not just for ecommerce or banking pages, but for email and even social media.  Google has begun to incentivize web page owners to implement HTTPS \ref{httpsPush} by favoring pages with implemented SSL in its search page rankings.  Further, all ecommerce is conducted over HTTPS.  What this amounts to is that large web servers must handle many thousands of SSL sessions per second.  As asymetric encryption is much more expensive computationally, hardware which can offload this processing is invaluable.  As of 2010, a typical CPU core would only be capable of 1,000 HTTPS transactions per second, while the same core would be capable of handling 10,000 HTTP transactions per second \cite{sslGPU}.
 
-To this effect, SSL Accelerators were created to perform just such a function.  Specialized hardware 
+To this effect, SSL Accelerators were created to perform just such a function.  The majority of the computation required for SSL, particularly the assymetric handshake procedure, is composed of integer arithmetic such as n-bit multiplication, where n is the number of bits in the key \cite{sslGPU}.  This lends itself quite readily to hardware acceleration with specialized hardware implementing many such operations performed in serial.  Theoretical performance can approach O(k) time, where k is the number of bits in two integers \cite{sslGPU}.  Due to the linear nature of symetric algorithms, this paralelization is not possible, and thus most hardware acceleration occurs in the realm of assymetric encryption.
+
+Several manufacturors produce SSL accelerators, which are designed for server applications, with Sun being the leader among them.  In 2002 the state of the art Crypto Accelerator 1000 PCI card was capable of 4300 new transactions per second, while by 2013 the price had dropped to a tenth, and performance increased to 13,000 new transactions per second, along with a concument increase in maximum key length.
+
+A typical processor used in these applications would be the BCM5821 \cite{broadcom}, a Broadcom ecommerce chip, which at the time was capable of processing 4000 1024-bit RSA transactions a second.  It operated at 125-Mhz and was based on 0.18m CMOS technology, with a low power consumption of 2.8 Watts.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=6cm,keepaspectratio]{img/broadcom.png}
+	\caption{BCM5821 Block Diagram \cite{broadcom} }
+	\label{broadcomFigure}
+\end{figure}
+
+In Figure \ref{broadcomFigure}, a block diagram of the BCM5821 can be seen.  The four common cryptographic components can be seen in the diagram, which include a SHA/MD5 hashing block, a random number generator, a symetric encryption accelerator, which is the 3DES/DES/ARCFour block, and an assymetric accelerator, named the public key acceleration block.
 
 \subsection{Hardware Security Modules}
+
+The need for physical security and hardware acceleration combined 
 
 \section{Instruction Set Extensions}
 
@@ -727,6 +742,14 @@ http://dl.acm.org/citation.cfm?id=324119.324128
 
 \bibitem{httpsPush}
 D. Goodin, "In major shift, Google boosts search rankings of HTTPS-protected sites," Ars Technica, 2014. [Online]. Available: http://arstechnica.com/security/2014/08/in-major-shift-google-boosts-search-rankings-of-https-protected-sites/. Accessed: Dec. 14, 2016.
+
+\bibitem{sslGPU}
+K. Jang and S. Han et al., “Accelerating SSL with GPUs,” ACM
+SIGCOMM Computer Communication Review, vol. 41, issue 1,
+January 2011
+
+\bibitem{broadcom}
+Broadcom, "BCM5821," in Elcodis. [Online]. Available: http://datasheet.elcodis.com/pdf2/71/46/714600/bcm5825a1kpbg.pdf. Accessed: Dec. 14, 2016.
 
 \end{thebibliography}
 
