@@ -447,8 +447,14 @@ The implementation of cryptography in hardware can be broken down into a few maj
 
 \section{History of Cryptography}
 
-Cryptography and cryptanalysis, up until World War II, didn't involve any mechanical or electromechanical tools.  By World War II, cipher machines were widely used.  The invention and subsequent breaking of these tools was one of the greatest breakthroughs in cryptography for thousands of years up to that point due to its impact in global affairs.  To defeat another form of German cryptography, known as the Fish ciphers, members of the Cipher Bureau designed the world's first programmable digital electronic computer, the Colossus.  The Americans used the SIGABA, an electromechanical rotor design similar to the Enigma but with major improvements making it undefeated as far as anyone knows in World War II.
+Cryptography and cryptanalysis, up until World War II, didn't involve any mechanical or electromechanical tools.  By World War II, cipher machines were widely used.  The invention and subsequent breaking of these tools was one of the greatest breakthroughs in cryptography for thousands of years up to that point due to its impact in global affairs.  To defeat another form of German cryptography, known as the Fish ciphers, members of the Cipher Bureau designed the world's first programmable digital electronic computer, the Colossus.  The Americans used the SIGABA, an electromechanical rotor design similar to the Enigma shown in Fig. \ref{enigma} but with major improvements making it undefeated as far as anyone knows in World War II.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=6cm,keepaspectratio]{img/enigma.jpg}
+	\caption{Public key encryption \cite{EnigmaRef} }
+	\label{enigma}
+\end{figure}
 
 First described in 1882, the one-time pad is the only form of encryption that cannot be cracked.  It requires the use of a pre-shared key that can only be used once and has to be at least the length of the message to be encrypted.  Each character or bit of the message is encrypted by combining it with the corresponding character or bit from the key using modular addition.  This has been proven to be unbreakable.  If an adversary intercepts the ciphertext, there is no way to deduce the original message.  That ciphertext can be decrypted to form any message just by varying the key.  This form of encryption hasn't found mainstream adoption because it is very difficult to ensure the key material is completely random, only used once, never gets discovered, and is destroyed after use.  In machine implementations, the XOR function is often used to combine the plaintext and key elements because it usually has a native machine instruction and is therefore fast.  At the end of World War II the United States managed to solve a one-time pad system used by the German Foreign Office for its important messages.  The keys that were used were insecure because they weren't completely random.  The machine used to generate the "seemingly" random keys actually produced predictable output.
 
@@ -759,6 +765,9 @@ S. Tzu, "A quote from the art of war," in Good Reads, Goodreads, 2015. [Online].
 
 \bibitem{KeyFigure}
 ict@innovation, "File: Ict-innovation-LPI-Fig-110-3 1.png - Wikimedia commons," in Wikipedia, 2012. [Online]. Available: https://commons.wikimedia.org/wiki/File:Ict-innovation-LPI-Fig-110-31.png. Accessed: Dec. 13, 2016.
+
+\bibitem{EnigmaRef}
+Jszigetvari, "File:Enigma.jpg," in Wikimedia, 2003. [Online]. Available: https://upload.wikimedia.org/wikipedia/commons/a/ae/Enigma.jpg. Accessed: Dec. 14, 2016.
 
 \bibitem{gpu}
 G. J. van den Braak, J. Gómez-Luna, J. M. González-Linares, H. Corporaal and N. Guil, "Configurable XOR Hash Functions for Banked Scratchpad Memories in GPUs," in IEEE Transactions on Computers, vol. 65, no. 7, pp. 2045-2058, July 1 2016.
