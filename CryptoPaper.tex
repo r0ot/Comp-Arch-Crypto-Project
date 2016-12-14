@@ -466,16 +466,20 @@ A review of the basics of cryptography as a whole is beyond the scope of this pa
 
 Modern cryptography hinges on the use of four main functions, symmetric encryption, asymmetric encryption, hashing, and random number generation.  Symmetric encryption is a method most often thought of when encryption is mentioned.  It is the use of a single key to both encrypt and decrypt a message.  Both user's must have the same key, and it must be shared in some fashion.  This has classically been a limiting factor in the adoption and usage of cryptography.  
 
-In order to ensure a key has not been lost to the adversary, key sets must be periodically changed, which entails distributing entire new sets of keys, or having large tomes with predetermined keys available.  This is an enormous burden which grows roughly on the order of $n^2$, where n is the number of users.  Not only is this cost prohibitive at a certain n, but the logistics of securely transfering key material precludes it's use, particularly in the case of warfare or espionage.
+In order to ensure a key has not been lost to the adversary, key sets must be periodically changed, which entails distributing entire new sets of keys, or having large tomes with predetermined keys available.  This is an enormous burden which grows roughly on the order of $n^2$, where n is the number of users.  Not only is this cost prohibitive at a certain n, but the logistics of securely transffering key material precludes it's use, particularly in the case of warfare or espionage.
 
 Nevertheless, symmetric key encryption has the advantage of being relatively less computationally expensive than its asymmetric counterpart.  This results in many uses where the initial secure session is created through the use of asymmetric methods, while the bulk of the data remains secure through symmetric encryption.
 
-
 \subsection{Asymmetric Key Encryption}
 
-The secure exchange of two people's communication starts with the swapping of public keys.  The first person encrypts a message using their private key followed by the other's public key.  That encrypted message is then sent to and decrypted by the other person with their private key followed by the first's public key.  If the resulting message is recognizable, both parties can assume the communication is secure..  \ref{keytypes}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=6cm,keepaspectratio]{img/crypto1.png}
+	\caption{Public key encryption \cite{KeyFigure} }
+	\label{pubenc}
+\end{figure}
 
-
+Symmetric encryption is extremely fast and therefore perfect for encrypting traffic on the Internet.  The only issue with this is distributing the single symmetric key.  If the key is sent in plaintext to the person being communicated with, any eavesdropper on the Internet could see it and decrypt every message sent after that.  This is why asymmetric key encryption is so important.  Although it is nowhere near as performant as symmetric key, it's ability to \emph{begin} an encrypted communication session is what gives it its power.  With asymmetric the key that gets sent over in plaintext is what's known as the public key.  It, in combination, with each users' private keys is what performs the encryption like in Fig. \ref{pubenc}.  Through this means, the far faster method of symmetric encryption can be began without an eavesdropper ever having the ability to eavesdrop.
 
 \begin{figure}[htbp]
 	\centering
@@ -483,6 +487,8 @@ The secure exchange of two people's communication starts with the swapping of pu
 	\caption{Encryption Key Type Breakdown \cite{KeyFigure} }
 	\label{keytypes}
 \end{figure}
+
+The secure exchange of two people's communication starts with the swapping of public keys.  The first person encrypts a message using their private key followed by the other's public key.  That encrypted message is then sent to and decrypted by the other person with their private key followed by the first's public key.  If the resulting message is recognizable, both parties can assume the communication is secure.  Fig. \ref{keytypes} illustrates this exchange.
 
 
 \subsection{Hashing Functions}
@@ -519,7 +525,7 @@ SSL/TLS, or Secure Sockets Layer/Transport Layer Security, often just called SSL
 \end{figure}
 
 
-This handshake, as the initial authentication is called, also contains information regarding the remainder of the session.  Included are details such as the TLS version, and which cipher suite will be used.  Available suites include AES, Camellia, and SEED \cite{tlsRFC}.  Available protocols for handshakes include RSA, PSK, various forms of Diffie-Helman, and others. Public-key infrastructure, which implies asymmetric keys, is used for this handshake.  Further, this key protects the transmission of the Master Secret, typically an AES key, which is then in turn used to protect the actual data.  This process of asymmetric keys allowing the transmission of symmetric keys is the realization of overcoming the obstacle of symmetric keys.  With a method of authenticating user identity, and then passing the encryption key, all of the logistical cost discussed earlier is negated.  Further, the computational cost of encrypting via AES and symmetric keys is must lower than that of performing asymmetric operations.  The Figure \ref{sslFigure} demonstrates the operation of SSL in a more detailed manner.
+This handshake, as the initial authentication is called, also contains information regarding the remainder of the session.  Included are details such as the TLS version, and which cipher suite will be used.  Available suites include AES, Camellia, and SEED \cite{tlsRFC}.  Available protocols for handshakes include RSA, PSK, various forms of Diffie-Helman, and others. Public-key infrastructure, which implies asymmetric keys, is used for this handshake.  Further, this key protects the transmission of the Master Secret, typically an AES key, which is then in turn used to protect the actual data.  This process of asymmetric keys allowing the transmission of symmetric keys is the realization of overcoming the obstacle of symmetric keys.  With a method of authenticating user identity, and then passing the encryption key, all of the logistical cost discussed earlier is negated.  Further, the computational cost of encrypting via AES and symmetric keys is must lower than that of performing asymmetric operations.  The Fig. \ref{sslFigure} demonstrates the operation of SSL in a more detailed manner.
 
 \section{Standalone Cryptographic Hardware}
 
@@ -536,7 +542,7 @@ Secure Cryptoprocessors form the heart of many security based devices.  The Prim
 	\label{coprocessorDiagram}
 \end{figure}
 
-In Figure \ref{coprocessorDiagram} a secure cryptoprocessor block diagram can be seen.  Although this particular processor is from a theoretical white paper, it will serve to demonstrate operations.  As can be expected, scant details are the norm regarding anything to do with security, especially so with cryptography.  At the periphery of the block diagram is the physical security boundary.  This construct is common to all cryptoprocessors and is the demarcation point where no unencrypted information is allowed to pass.  All keys, all processing, must occur and be stored behind that boundary, unless it has been encrypted.  This boundary is not only figurative, it is a literal physical boundary.  The processor is enmeshed in a conductive grid \cite{coprocesserWhitePaper} which allows any physical tampering to be detected.  In the event that tampering is detected, the key material, at the very least, is deleted by zeroizing the memory.  Ideally the operating system is also zeroized along with any other information.  In this way, it can be assured that key material on the chip stays on the chip, and can not be removed, at least in a physical manner.
+In Fig. \ref{coprocessorDiagram} a secure cryptoprocessor block diagram can be seen.  Although this particular processor is from a theoretical white paper, it will serve to demonstrate operations.  As can be expected, scant details are the norm regarding anything to do with security, especially so with cryptography.  At the periphery of the block diagram is the physical security boundary.  This construct is common to all cryptoprocessors and is the demarcation point where no unencrypted information is allowed to pass.  All keys, all processing, must occur and be stored behind that boundary, unless it has been encrypted.  This boundary is not only figurative, it is a literal physical boundary.  The processor is enmeshed in a conductive grid \cite{coprocesserWhitePaper} which allows any physical tampering to be detected.  In the event that tampering is detected, the key material, at the very least, is deleted by zeroizing the memory.  Ideally the operating system is also zeroized along with any other information.  In this way, it can be assured that key material on the chip stays on the chip, and can not be removed, at least in a physical manner.
 
 \subsection{Random Number Generator}
 
@@ -549,9 +555,9 @@ The implementation of a random number generator is of paramount importance for c
 	\label{transistorFig}
 \end{figure}
 
-The design consists only of two transistors and two inverters and can be seen in Figure \ref{transistorFig}.  Typically in digital systems the goal is to have only logic 1’s and 0’s.  However when designing a random number generator, teetering that can sometimes happen in digital logic is a good thing and can even be exploited.  When the clock in this design hits and the two transistors allow nodes A and B to be at a logic 1, the inverters are fighting to determine which is going to invert from a 0 to a 1 or from a 1 to a 0.  This fighting is called metastability and always ends in a random winner determined by such chaotic things as thermal noise and random atomic vibrations.
+The design consists only of two transistors and two inverters and can be seen in Fig. \ref{transistorFig}.  Typically in digital systems the goal is to have only logic 1's and 0's.  However when designing a random number generator, teetering that can sometimes happen in digital logic is a good thing and can even be exploited.  When the clock in this design hits and the two transistors allow nodes A and B to be at a logic 1, the inverters are fighting to determine which is going to invert from a 0 to a 1 or from a 1 to a 0.  This fighting is called metastability and always ends in a random winner determined by such chaotic things as thermal noise and random atomic vibrations.
 
-Just one of these digital circuits wouldn’t be enough.  Small variations in the fabrication process can cause differences in the inverters and even lead to either 1 or 0 being favored.  To circumvent such a problem, designers built a feedback loop into the hardware that ensures the two possible outcomes occur roughly equal amounts of the time.
+Just one of these digital circuits wouldn't be enough.  Small variations in the fabrication process can cause differences in the inverters and even lead to either 1 or 0 being favored.  To circumvent such a problem, designers built a feedback loop into the hardware that ensures the two possible outcomes occur roughly equal amounts of the time.
 
 
 \begin{figure}[htbp]
@@ -563,11 +569,11 @@ Just one of these digital circuits wouldn’t be enough.  Small variations in th
 
 
 
-Most pseudorandom number generation algorithms require the initial seed be something like a 256-bit number.  Intel’s design goes a step further than just sampling their inverter logic 256 times, it instead samples 512-bits and performs a cryptographic operation combining both 256-bit halves into one very random 256-bit number that can finally be used in a proven pseudorandom number generator.  Finally this algorithm can produce random number at very high frequencies.  The instruction RdRand was introduced with this hardware to access 16-, 32-, or 64-bit random values from the Intel chips.  A diagram of this process may be seen in Figur \ref{rngFig}.
+Most pseudorandom number generation algorithms require the initial seed be something like a 256-bit number.  Intel's design goes a step further than just sampling their inverter logic 256 times, it instead samples 512-bits and performs a cryptographic operation combining both 256-bit halves into one very random 256-bit number that can finally be used in a proven pseudorandom number generator.  Finally this algorithm can produce random number at very high frequencies.  The instruction RdRand was introduced with this hardware to access 16-, 32-, or 64-bit random values from the Intel chips.  A diagram of this process may be seen in Fig. \ref{rngFig}.
 
 \subsection{SSL Acceleration}
 
-In recent years, there has been a push to shift all web pages with a login to only allow HTTPS connections.  Not just for e-commerce or banking pages, but for email and even social media.  Google has begun to incentivize web page owners to implement HTTPS \ref{httpsPush} by favoring pages with implemented SSL in its search page rankings.  Further, all e-commerce is conducted over HTTPS.  What this amounts to is that large web servers must handle many thousands of SSL sessions per second.  As asymmetric encryption is much more expensive computationally, hardware which can offload this processing is invaluable.  As of 2010, a typical CPU core would only be capable of 1,000 HTTPS transactions per second, while the same core would be capable of handling 10,000 HTTP transactions per second \cite{sslGPU}.
+In recent years, there has been a push to shift all web pages with a login to only allow HTTPS connections.  Not just for e-commerce or banking pages, but for email and even social media.  Google has begun to incentivize web page owners to implement HTTPS \cite{httpsPush} by favoring pages with implemented SSL in its search page rankings.  Further, all e-commerce is conducted over HTTPS.  What this amounts to is that large web servers must handle many thousands of SSL sessions per second.  As asymmetric encryption is much more expensive computationally, hardware which can offload this processing is invaluable.  As of 2010, a typical CPU core would only be capable of 1,000 HTTPS transactions per second, while the same core would be capable of handling 10,000 HTTP transactions per second \cite{sslGPU}.
 
 To this effect, SSL Accelerators were created to perform just such a function.  The majority of the computation required for SSL, particularly the asymmetric handshake procedure, is composed of integer arithmetic such as n-bit multiplication, where n is the number of bits in the key \cite{sslGPU}.  This lends itself quite readily to hardware acceleration with specialized hardware implementing many such operations performed in serial.  Theoretical performance can approach O(k) time, where k is the number of bits in two integers \cite{sslGPU}.  Due to the linear nature of symmetric algorithms, this parallelization is not possible, and thus most hardware acceleration occurs in the realm of asymmetric encryption.
 
@@ -582,7 +588,7 @@ A typical processor used in these applications would be the BCM5821 \cite{broadc
 	\label{broadcomFigure}
 \end{figure}
 
-In Figure \ref{broadcomFigure}, a block diagram of the BCM5821 can be seen.  The four common cryptographic components can be seen in the diagram, which include a SHA/MD5 hashing block, a random number generator, a symmetric encryption accelerator, which is the 3DES/DES/ARCFour block, and an asymmetric accelerator, named the public key acceleration block.
+In Fig. \ref{broadcomFigure}, a block diagram of the BCM5821 can be seen.  The four common cryptographic components can be seen in the diagram, which include a SHA/MD5 hashing block, a random number generator, a symmetric encryption accelerator, which is the 3DES/DES/ARCFour block, and an asymmetric accelerator, named the public key acceleration block.
 
 \subsection{Hardware Security Modules}
 
@@ -592,7 +598,10 @@ The need for physical security and hardware acceleration have been combined into
 
 \subsection{AES-NI}
 
-In 2010 Intel introduced AES-NI into the Intel Core processor family \cite{AES1} \cite{AES2}.  AES-NI stands for Advanced Encryption Standard - New Instructions.  These six new instructions were implemented in hardware such that they accelerated the more compute intensive steps of AES.  Two of these instructions aided in the acceleration of encrypting, two helped decrypting, and the last two improved the generation of keys.  These instructions don’t just improve performance, they improve security as well.  By not requiring software writers to implement the key stages of AES, small security flaws can’t be introduced into the system due to incorrect implementations.  Software implementations using tables also sometimes fall victim to major timing and cache-based attacks because a lot of the data needed to run the algorithms is available in software and can be accessed maliciously.  Having AES run completely in hardware defeats these vulnerabilities. These new instructions can also speedup the performance over the completely software approaches by 3 to 10 times.
+In 2010 Intel introduced AES-NI into the Intel Core processor family \cite{AES1} \cite{AES2}.  AES-NI stands for Advanced Encryption Standard - New Instructions.  These six new instructions were implemented in hardware such that they accelerated the more compute intensive steps of AES.  Two of these instructions aided in the acceleration of encrypting, two helped decrypting, and the last two improved the generation of keys.  These instructions don't just improve performance, they improve security as well.  By not requiring software writers to implement the key stages of AES, small security flaws can't be introduced into the system due to incorrect implementations.  Software implementations using tables also sometimes fall victim to major timing and cache-based attacks because a lot of the data needed to run the algorithms is available in software and can be accessed maliciously.  Having AES run completely in hardware defeats these vulnerabilities. These new instructions can also speedup the performance over the completely software approaches by 3 to 10 times.
+
+\subsection{Intel SHA Extensions}
+
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -771,21 +780,21 @@ doi: 10.1109/CICT.2013.6558135
 2016 S. Corporation, "SSL by Symantec - learn how SSL works," in Symantec, 1995. [Online]. Available: https://www.symantec.com/content/en/us/enterprise/white\_papers/b-beginners-guide-to-ssl-certificates\_WP.pdf. Accessed: Dec. 14, 2016.
 
 \bibitem{tlsRFC}
-J. Salowey and A. Choudhury, “AES Galois Counter Mode (GCM) Cipher Suites for TLS,” RFC 5288, Aug. 2008.
+J. Salowey and A. Choudhury, "��AES Galois Counter Mode (GCM) Cipher Suites for TLS,"�� RFC 5288, Aug. 2008.
 
 \bibitem{sslImage}
 "What is SSL?," in IdenTrustSSL. [Online]. Available: https://www.identrustssl.com/images/learn\_ssl\_diagram.gif. Accessed: Dec. 14, 2016.
 
 \bibitem{coprocesserWhitePaper}
-“Building a high-performance, programmable secure coprocessor,” Comput.
-Netw., vol. 31, no. 9, pp. 831–860, Apr. 1999. [Online]. Available:
+"Building a high-performance, programmable secure coprocessor," Comput.
+Netw., vol. 31, no. 9, pp. 831'860, Apr. 1999. [Online]. Available:
 http://dl.acm.org/citation.cfm?id=324119.324128
 
 \bibitem{httpsPush}
 D. Goodin, "In major shift, Google boosts search rankings of HTTPS-protected sites," Ars Technica, 2014. [Online]. Available: http://arstechnica.com/security/2014/08/in-major-shift-google-boosts-search-rankings-of-https-protected-sites/. Accessed: Dec. 14, 2016.
 
 \bibitem{sslGPU}
-K. Jang and S. Han et al., “Accelerating SSL with GPUs,” ACM
+K. Jang and S. Han et al., "Accelerating SSL with GPUs," ACM
 SIGCOMM Computer Communication Review, vol. 41, issue 1,
 January 2011
 
@@ -793,13 +802,13 @@ January 2011
 Broadcom, "BCM5821," in Elcodis. [Online]. Available: http://datasheet.elcodis.com/pdf2/71/46/714600/bcm5825a1kpbg.pdf. Accessed: Dec. 14, 2016.
 
 \bibitem{AES1}
-R. C., "AES-NI in Laymen’s Terms," in Intel, 2012. [Online]. Available: https://software.intel.com/en-us/blogs/2012/01/11/aes-ni-in-laymens-terms. Accessed: Dec. 14, 2016.
+R. C., "AES-NI in Laymen's Terms," in Intel, 2012. [Online]. Available: https://software.intel.com/en-us/blogs/2012/01/11/aes-ni-in-laymens-terms. Accessed: Dec. 14, 2016.
 
 \bibitem{AES2}
 J. Rott, "Intel® Advanced Encryption Standard Instructions (AES-NI)," in Intel, 2012. [Online]. Available: https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-instructions-aes-ni. Accessed: Dec. 14, 2016.
 
 \bibitem{IEEERNG}
-G. Taylor and G. Cox, "Behind Intel’s new random-number generator," in IEEE, IEEE Spectrum: Technology, Engineering, and Science News, 2011. [Online]. Available: http://spectrum.ieee.org/computing/hardware/behind-intels-new-randomnumber-generator. Accessed: Dec. 14, 2016.
+G. Taylor and G. Cox, "Behind Intel"��s new random-number generator," in IEEE, IEEE Spectrum: Technology, Engineering, and Science News, 2011. [Online]. Available: http://spectrum.ieee.org/computing/hardware/behind-intels-new-randomnumber-generator. Accessed: Dec. 14, 2016.
 
 \end{thebibliography}
 
