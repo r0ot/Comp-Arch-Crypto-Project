@@ -445,7 +445,16 @@ blahblah blahblahblahblah blahblahblahblah blahblahblahblah blahblahblahblah bla
 
 \section{History of Cryptography}
 
+Cryptography and cryptanalysis, up until World War II, didn’t involve any mechanical or electromechanical tools.  By World War II, cipher machines were widely used.  The invention and subsequent breaking of these tools was one of the greatest breakthroughs in cryptography for thousands of years up to that point due to its impact in global affairs.  To defeat another form of German cryptography, known as the Fish ciphers, members of the Cipher Bureau designed the world’s first programmable digital electronic computer, the Colossus.  The Americans used the SIGABA, an electromechanical rotor design similar to the Enigma but with major improvements making it undefeated as far as anyone knows in World War II.
 
+
+First described in 1882, the one-time pad is the only form of encryption that cannot be cracked.  It requires the use of a pre-shared key that can only be used once and has to be at least the length of the message to be encrypted.  Each character or bit of the message is encrypted by combining it with the corresponding character or bit from the key using modular addition.  This has been proven to be unbreakable.  If an adversary intercepts the ciphertext, there is no way to deduce the original message.  That ciphertext can be decrypted to form any message just by varying the key.  This form of encryption hasn’t found mainstream adoption because it is very difficult to ensure the key material is completely random, only used once, never gets discovered, and is destroyed after use.  In machine implementations, the XOR function is often used to combine the plaintext and key elements because it usually has a native machine instruction and is therefore fast.  At the end of World War II the United States managed to solve a one-time pad system used by the German Foreign Office for its important messages.  The keys that were used were insecure because they weren’t completely random.  The machine used to generate the “seemingly” random keys actually produced predictable output.
+
+
+The introduction of symmetric key ciphers after World War II marked one of the most notable advances in cryptography.  With the widespread adoption of the Internet came the need for a widespread standard of encryption.  Data Encryption Standard (DES) was the first to be adopted, soon after it was replaced by the Advanced Encryption Standard (AES).  Finally with the advent of the Secure Socket Layer (SSL) all transactions done on the Internet were protected by encryption.
+
+
+The problem with crypto systems leading up to asymmetric key encryption, or public-key ciphers, was the necessity for the sender and receiver to share the same key while at the same time keeping it secret.  This led to a problem with key distribution.  In the early days of cryptography the keys were exchanged by trustworthy couriers, face-to-face contact, or even a loyal carrier pigeon.  In the age of the Internet where all communication required keys shared on a two-person basis, this problem of distribution became hard to manage.  Asymmetric key encryption works with pairs of mathematically related keys, private and public.  Since the public key could be the one that needed to be exchanged, no secure channels were needed for the exchange.  As long as your private key remained private, encrypted data could only be assessed by brute force.
 
 \section{Cryptography Basics}
 
@@ -455,14 +464,14 @@ A review of the basics of cryptography as a whole is beyond the scope of this pa
 
 Modern cryptography hinges on the use of four main functions, symmetric encryption, asymmetric encryption, hashing, and random number generation.  Symmetric encryption is a method most often thought of when encryption is mentioned.  It is the use of a single key to both encrypt and decrypt a message.  Both user's must have the same key, and it must be shared in some fashion.  This has classically been a limiting factor in the adoption and usage of cryptography.  
 
-In order to ensure a key has not been lost to the adversary, key sets must be periodically changed, which entails distributing entire new sets of keys, or having large tomes with predetermined keys available.  This is an enormous burden which grows roughly on the order of $n^2$, where n is the number of users.  Not only is this cost prohibitive at a certain n, but the logistics of securely transffering key material precludes it's use, particularly in the case of warfare or espionage.
+In order to ensure a key has not been lost to the adversary, key sets must be periodically changed, which entails distributing entire new sets of keys, or having large tomes with predetermined keys available.  This is an enormous burden which grows roughly on the order of $n^2$, where n is the number of users.  Not only is this cost prohibitive at a certain n, but the logistics of securely transfering key material precludes it's use, particularly in the case of warfare or espionage.
 
 Nevertheless, symmetric key encryption has the advantage of being relatively less computationally expensive than its asymmetric counterpart.  This results in many uses where the initial secure session is created through the use of asymmetric methods, while the bulk of the data remains secure through symmetric encryption.
 
 
 \subsection{Asymmetric Key Encryption}
 
-Advancements in the field brought about the creation of asymmetric key encryption.  \ref{keytypes}
+The secure exchange of two people's communication starts with the swapping of public keys.  The first person encrypts a message using their private key followed by the other's public key.  That encrypted message is then sent to and decrypted by the other person with their private key followed by the first's public key.  If the resulting message is recognizable, both parties can assume the communication is secure..  \ref{keytypes}
 
 
 
@@ -482,7 +491,7 @@ A hash function takes a variable length input and transforms it into a fixed len
 
 When a user logs into a domain workstation, the password is not sent over the wire for authentication.  Instead, it is hashed, and that hash is compared with the stored hash.  This prevents a plaint text, or even an encrypted, password from being sent, and possibly being intercepted.  Furher, when storing passwords, the accepted method of doing so is by hashing them, as well as salting them. 
 
-In assymetric encryption, hashing is used to check the integrity of messages, the so called authentication code.  By performing a hash of data to be encrypted, and then encrypting that hash with a private key, the recipient can decrypt the hash, verify that the data matches the hash, and then know that the user who created the hash truly sent the message.  A similar idea is used in file content digesting.  By storing the hash of a file in a public place, any user which downloads that file can perform a hash on their machine, compare it to the public hash, and ensure that the software they have downloaded is not a fake copy or has been altered in some way.
+In asymmetric encryption, hashing is used to check the integrity of messages, the so called authentication code.  By performing a hash of data to be encrypted, and then encrypting that hash with a private key, the recipient can decrypt the hash, verify that the data matches the hash, and then know that the user who created the hash truly sent the message.  A similar idea is used in file content digesting.  By storing the hash of a file in a public place, any user which downloads that file can perform a hash on their machine, compare it to the public hash, and ensure that the software they have downloaded is not a fake copy or has been altered in some way.
 
 There are many hashing algorithms, but the most popular are MD5, SHA1, and SHA2, which is broken up into SHA-256 and SHA-512.  In recent times, MD5 has become less secure \cite{hashRainbow} \cite{hashBotnet}, and SHA1 is beginning to succumb to Moore's law as well.  In the very near future, SHA2 varieties will make up the bulk of cryptographic hashing.
 
@@ -527,6 +536,8 @@ Secure Cryptoprocessors form the heart of many security based devices.  The Prim
 
 In Figure \ref{coprocessorDiagram} a secure cryptoprocessor block diagram can be seen.  Although this particular processor is from a theoretical white paper, it will serve to demonstrate operations.  As can be expected, scant details are the norm regarding anything to do with security, especially so with cryptography.  At the peripherary of the block diagram is the physical security boundary.  This construct is common to all cryptoprocessors and is the demarcation point where no unencrypted information is allowd to pass.  All keys, all processing, must occur and be stored behind that boundary, unless it has been encrypted.  This boundary is not only figurative, it is a literal physical boundary.  The processor is enmeshed in a conductive grid \cite{coprocesserWhitePaper} which allows any physical tampering to be detected.  In the event that tampering is detected, the key material, at the very least, is deleted by zeroizing the memory.  Ideally the operating system is also zeroized along with any other information.  In this way, it can be assured that key material on the chip stays on the chip, and can not be removed, at least in a physical manner.
 
+\subsection{Random Number Generator}
+
 \subsection{SSL Acceleration}
 
 In recent years, there has been a push to shift all web pages with a login to only allow HTTPS connections.  Not just for ecommerce or banking pages, but for email and even social media.  Google has begun to incentivize web page owners to implement HTTPS \ref{httpsPush} by favoring pages with implemented SSL in its search page rankings.  Further, all ecommerce is conducted over HTTPS.  What this amounts to is that large web servers must handle many thousands of SSL sessions per second.  As asymetric encryption is much more expensive computationally, hardware which can offload this processing is invaluable.  As of 2010, a typical CPU core would only be capable of 1,000 HTTPS transactions per second, while the same core would be capable of handling 10,000 HTTP transactions per second \cite{sslGPU}.
@@ -548,10 +559,13 @@ In Figure \ref{broadcomFigure}, a block diagram of the BCM5821 can be seen.  The
 
 \subsection{Hardware Security Modules}
 
-The need for physical security and hardware acceleration combined 
+The need for physical security and hardware acceleration have been combined into a single discrete network component, the hardware security module (HSM).  In addition to these two functions, many 
 
 \section{Instruction Set Extensions}
 
+\subsection{AES-NI}
+
+In 2010 Intel introduced AES-NI into the Intel Core processor family \cite{AES1} \cite{AES2}.  AES-NI stands for Advanced Encryption Standard - New Instructions.  These six new instructions were implemented in hardware such that they accelerated the more compute intensive steps of AES.  Two of these instructions aided in the acceleration of encrypting, two helped decrypting, and the last two improved the generation of keys.  These instructions don’t just improve performance, they improve security as well.  By not requiring software writers to implement the key stages of AES, small security flaws can’t be introduced into the system due to incorrect implementations.  Software implementations using tables also sometimes fall victim to major timing and cache-based attacks because a lot of the data needed to run the algorithms is available in software and can be accessed maliciously.  Having AES run completely in hardware defeats these vulnerabilities. These new instructions can also speedup the performance over the completely software approaches by 3 to 10 times.
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -750,6 +764,12 @@ January 2011
 
 \bibitem{broadcom}
 Broadcom, "BCM5821," in Elcodis. [Online]. Available: http://datasheet.elcodis.com/pdf2/71/46/714600/bcm5825a1kpbg.pdf. Accessed: Dec. 14, 2016.
+
+\bibitem{AES1}
+R. C., "AES-NI in Laymen’s Terms," in Intel, 2012. [Online]. Available: https://software.intel.com/en-us/blogs/2012/01/11/aes-ni-in-laymens-terms. Accessed: Dec. 14, 2016.
+
+\bibitem{AES2}
+J. Rott, "Intel® Advanced Encryption Standard Instructions (AES-NI)," in Intel, 2012. [Online]. Available: https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-instructions-aes-ni. Accessed: Dec. 14, 2016.
 
 \end{thebibliography}
 
