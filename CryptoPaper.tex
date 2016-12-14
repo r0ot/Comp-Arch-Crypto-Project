@@ -434,8 +434,15 @@ IEEE, Cryptography, Information Theory.
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{T}{his} is the intro blahblah blahblahblahblah blahblahblahblah blahblah
-blahblah blahblahblahblah blahblahblahblah blahblahblahblah blahblahblahblah blahblah
+\IEEEPARstart{T}{he} state of the modern world rests upon a strong foundation of information exchange.  From shipping orders which bring just in time deliveries of food to stock market transactions signalling supply and demand across the world, the free flow of information is vital to our society.  Just simply transferring information is important, but so is ensuring that no malicious actors have modified or deleted information to further their goals.  To this effect, cryptography is used to ensure a few key points.  
+
+Non-repudiation is the idea that the author of a message is unable to state that they did not author said message.  This can be seen as vital in many applications.  Imagine if that stock broker with a buy order decides to disavow that purchase once he realizes the price has dropped significantly, or that certain messages are denied by an individual in a criminal investigation.  The ability to guarantee that a message could only have been written by a specific individual is extremly important.
+
+Keeping certain information secret is also of paramount importance.  Once again, imagine that successful stock broker making a great monumental purchase having their buy information observed by an adversary, who could perhaps put in faster orders that are to their advantage, given this information.  
+
+Finally, ensuring that sent information remains intact without modification is of clear importance.  For all these reasons, and some minor ones, the field of cryptography has been advanced.  The solution to these problems is contained in four primary functions, two encryption techniques, hashing techniques, and random number generation.  Due to the mathematical nature of these functions, and particularly for asymetric encryption, the computational toll can be significant.  As they are ubiquitious in usage, a need for hardware acceleration is desired, and in some cases required.
+
+The implementation of cryptography in hardware can be broken down into a few major components.  Secure cryptoprocessors perform the previously mentioned functions in a secure, physically tamper resistent environment, without providing acceleration.  Special modules, used to build SSL accelerators, actually perform acceleration of these functions, but ordinarrily do not provide such tamper resistence.  Hardware security modules roll all of these components into one, and include random number generators and hashing hardware as well.  The importance of securely implementing these functions in hardware, and software as well, can not be understated, and will be explored thoroughly in this paper.
 
 
 \section{History of Cryptography}
