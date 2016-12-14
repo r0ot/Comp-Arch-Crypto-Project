@@ -349,7 +349,9 @@
 
 
 \author{Terence O'Brien,
-        Ian Perry}
+        Ian Perry
+\thanks{Terence O'Brien is a senior in Computer Engineering at the Rochester Institute of Technology. Email: tpo1528@rit.edu}%
+\thanks{Ian Perry is a senior in Computer Engineering at the Rochester Institute of Technology. Email: itp7999@rit.edu }}
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -452,7 +454,7 @@ Cryptography and cryptanalysis, up until World War II, didn't involve any mechan
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=6cm,keepaspectratio]{img/enigma.jpg}
-	\caption{Public key encryption \cite{EnigmaRef} }
+	\caption{Enigma Machine \cite{EnigmaRef} }
 	\label{enigma}
 \end{figure}
 
@@ -489,8 +491,8 @@ Symmetric encryption is extremely fast and therefore perfect for encrypting traf
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=8cm,keepaspectratio]{img/encryptionkeytypes.png}
-	\caption{Encryption Key Type Breakdown \cite{KeyFigure} }
+	\includegraphics[width=8cm,keepaspectratio]{img/crypto2.png}
+	\caption{Private key encryption \cite{KeyFigure} }
 	\label{keytypes}
 \end{figure}
 
@@ -606,6 +608,10 @@ The need for physical security and hardware acceleration have been combined into
 
 In 2010 Intel introduced AES-NI into the Intel Core processor family \cite{AES1} \cite{AES2}.  AES-NI stands for Advanced Encryption Standard - New Instructions.  These six new instructions were implemented in hardware such that they accelerated the more compute intensive steps of AES.  Two of these instructions aided in the acceleration of encrypting, two helped decrypting, and the last two improved the generation of keys.  These instructions don't just improve performance, they improve security as well.  By not requiring software writers to implement the key stages of AES, small security flaws can't be introduced into the system due to incorrect implementations.  Software implementations using tables also sometimes fall victim to major timing and cache-based attacks because a lot of the data needed to run the algorithms is available in software and can be accessed maliciously.  Having AES run completely in hardware defeats these vulnerabilities. These new instructions can also speedup the performance over the completely software approaches by 3 to 10 times.
 
+\subsection{Intel SHA}
+
+In order to accelerate the SHA hashing algorithm, Intel engineers introduced instructions to the core CPU line \cite{intelSHA}.  The instructions support SHA1 and the SHA-256 version of SHA2.  Seven instructions in total comprise this new set and give performance benefits as well as power consumption benefits for applications which require these hashing functions.  The instructions are SHA1RNDS4, SHA1NEXTE, SHA1MSG1, SHA1MSG2, SHA256RNDS2, SHA256MSG1, and SHA256MSG2.  The bulk of the instructions are performing XOR calculations on the message to be hashed in parallel.  An implementation for SHA-512 is not yet planned, but will become a necessity in the near future as SHA-256 becomes feasibly targetable by brute force methods in the coming decades.
+
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -705,7 +711,7 @@ In 2010 Intel introduced AES-NI into the Intel Core processor family \cite{AES1}
 
 
 \section{Conclusion}
-Ever since the dawn of humanity, the very nature of communication included those that wished to communicate, and those that wished to eavesdrop.  In the early stages this took the form of simple mathematical heuristics that could disguise the message you wished to communicate into seemingly random gibberish.  As the stakes were raised with more widespread conflict, so did the stakes of protecting communications as well as breaking other's.  With the advent of computers suddenly a machine could crunch far more complex algorithms than a human ever could.  This allowed not only governments to have the strongest encryption, but the entire population.  This new ability gave rise to higher demand for performance and efficiency.  Now specialized hardware in every devise can generate completely random numbers to drive completely secure cryptographic systems.  The Internet is designed to allow every person in the world to communicate with one another and cryptography is designed to protect that communication.
+Ever since the dawn of humanity, the very nature of communication included those that wished to communicate, and those that wished to eavesdrop.  In the early stages this took the form of simple mathematical heuristics that could disguise the message you wished to communicate into seemingly random gibberish.  As the stakes were raised with more widespread conflict, so did the stakes of protecting communications as well as breaking other's.  With the advent of computers suddenly a machine could crunch far more complex algorithms than a human ever could.  This allowed not only governments to have the strongest encryption, but the entire population.  This new ability gave rise to higher demand for performance and efficiency.  Now specialized hardware in every device can generate completely random numbers to drive completely secure cryptographic systems.  The Internet is designed to allow every person in the world to communicate with one another and cryptography is designed to protect that communication.
 
 
 
@@ -816,6 +822,9 @@ J. Rott, "Intel® Advanced Encryption Standard Instructions (AES-NI)," in Intel,
 
 \bibitem{IEEERNG}
 G. Taylor and G. Cox, "Behind Intel"��s new random-number generator," in IEEE, IEEE Spectrum: Technology, Engineering, and Science News, 2011. [Online]. Available: http://spectrum.ieee.org/computing/hardware/behind-intels-new-randomnumber-generator. Accessed: Dec. 14, 2016.
+
+\bibitem{intelSHA}
+I. Intel, "Intel® SHA extensions," in Intel, 2013. [Online]. Available: https://software.intel.com/en-us/articles/intel-sha-extensions. Accessed: Dec. 14, 2016.
 
 \end{thebibliography}
 
