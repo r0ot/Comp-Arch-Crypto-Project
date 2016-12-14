@@ -472,16 +472,23 @@ Nevertheless, symmetric key encryption has the advantage of being relatively les
 
 \subsection{Asymmetric Key Encryption}
 
-Symmetric encryption is extremely fast and therefore perfect for encrypting traffic on the Internet.  The only issue with this is distributing the single symmetric key.  If the key is sent in plaintext to the person being communicated with, any eavesdropper on the Internet could see it and decrypt every message sent after that.  This is why asymmetric key encryption is so important.  Although it is nowhere near as performant as symmetric key, it's ability to \emph{begin} an encrypted communication session is what gives it its power.  With asymmetric the key that gets sent over in plaintext is what's known as the public key.  It, in combination, with each users' private keys is what performs the encryption.  Through this means, the far faster method of symmetric encryption can be began without an eavesdropper ever having the ability to eavesdrop.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=6cm,keepaspectratio]{img/crypto1.png}
+	\caption{Public key encryption \cite{KeyFigure} }
+	\label{pubenc}
+\end{figure}
 
-The secure exchange of two people's communication starts with the swapping of public keys.  The first person encrypts a message using their private key followed by the other's public key.  That encrypted message is then sent to and decrypted by the other person with their private key followed by the first's public key.  If the resulting message is recognizable, both parties can assume the communication is secure.  Fig. \ref{keytypes} illustrates this exchange.
+Symmetric encryption is extremely fast and therefore perfect for encrypting traffic on the Internet.  The only issue with this is distributing the single symmetric key.  If the key is sent in plaintext to the person being communicated with, any eavesdropper on the Internet could see it and decrypt every message sent after that.  This is why asymmetric key encryption is so important.  Although it is nowhere near as performant as symmetric key, it's ability to \emph{begin} an encrypted communication session is what gives it its power.  With asymmetric the key that gets sent over in plaintext is what's known as the public key.  It, in combination, with each users' private keys is what performs the encryption like in Fig. \ref{pubenc}.  Through this means, the far faster method of symmetric encryption can be began without an eavesdropper ever having the ability to eavesdrop.
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=6cm,keepaspectratio]{img/encryptionkeytypes.png}
-	\caption{Encryption Key Type Breakdown \cite{KeyFigure} }
+	\includegraphics[width=6cm,keepaspectratio]{img/crypto2.png}
+	\caption{Encrypting and Decrypting with Asymmetric Keys \cite{KeyFigure} }
 	\label{keytypes}
 \end{figure}
+
+The secure exchange of two people's communication starts with the swapping of public keys.  The first person encrypts a message using their private key followed by the other's public key.  That encrypted message is then sent to and decrypted by the other person with their private key followed by the first's public key.  If the resulting message is recognizable, both parties can assume the communication is secure.  Fig. \ref{keytypes} illustrates this exchange.
 
 
 \subsection{Hashing Functions}
@@ -566,7 +573,7 @@ Most pseudorandom number generation algorithms require the initial seed be somet
 
 \subsection{SSL Acceleration}
 
-In recent years, there has been a push to shift all web pages with a login to only allow HTTPS connections.  Not just for e-commerce or banking pages, but for email and even social media.  Google has begun to incentivize web page owners to implement HTTPS \ref{httpsPush} by favoring pages with implemented SSL in its search page rankings.  Further, all e-commerce is conducted over HTTPS.  What this amounts to is that large web servers must handle many thousands of SSL sessions per second.  As asymmetric encryption is much more expensive computationally, hardware which can offload this processing is invaluable.  As of 2010, a typical CPU core would only be capable of 1,000 HTTPS transactions per second, while the same core would be capable of handling 10,000 HTTP transactions per second \cite{sslGPU}.
+In recent years, there has been a push to shift all web pages with a login to only allow HTTPS connections.  Not just for e-commerce or banking pages, but for email and even social media.  Google has begun to incentivize web page owners to implement HTTPS \cite{httpsPush} by favoring pages with implemented SSL in its search page rankings.  Further, all e-commerce is conducted over HTTPS.  What this amounts to is that large web servers must handle many thousands of SSL sessions per second.  As asymmetric encryption is much more expensive computationally, hardware which can offload this processing is invaluable.  As of 2010, a typical CPU core would only be capable of 1,000 HTTPS transactions per second, while the same core would be capable of handling 10,000 HTTP transactions per second \cite{sslGPU}.
 
 To this effect, SSL Accelerators were created to perform just such a function.  The majority of the computation required for SSL, particularly the asymmetric handshake procedure, is composed of integer arithmetic such as n-bit multiplication, where n is the number of bits in the key \cite{sslGPU}.  This lends itself quite readily to hardware acceleration with specialized hardware implementing many such operations performed in serial.  Theoretical performance can approach O(k) time, where k is the number of bits in two integers \cite{sslGPU}.  Due to the linear nature of symmetric algorithms, this parallelization is not possible, and thus most hardware acceleration occurs in the realm of asymmetric encryption.
 
@@ -592,6 +599,9 @@ The need for physical security and hardware acceleration have been combined into
 \subsection{AES-NI}
 
 In 2010 Intel introduced AES-NI into the Intel Core processor family \cite{AES1} \cite{AES2}.  AES-NI stands for Advanced Encryption Standard - New Instructions.  These six new instructions were implemented in hardware such that they accelerated the more compute intensive steps of AES.  Two of these instructions aided in the acceleration of encrypting, two helped decrypting, and the last two improved the generation of keys.  These instructions don't just improve performance, they improve security as well.  By not requiring software writers to implement the key stages of AES, small security flaws can't be introduced into the system due to incorrect implementations.  Software implementations using tables also sometimes fall victim to major timing and cache-based attacks because a lot of the data needed to run the algorithms is available in software and can be accessed maliciously.  Having AES run completely in hardware defeats these vulnerabilities. These new instructions can also speedup the performance over the completely software approaches by 3 to 10 times.
+
+\subsection{Intel SHA Extensions}
+
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -770,21 +780,21 @@ doi: 10.1109/CICT.2013.6558135
 2016 S. Corporation, "SSL by Symantec - learn how SSL works," in Symantec, 1995. [Online]. Available: https://www.symantec.com/content/en/us/enterprise/white\_papers/b-beginners-guide-to-ssl-certificates\_WP.pdf. Accessed: Dec. 14, 2016.
 
 \bibitem{tlsRFC}
-J. Salowey and A. Choudhury, ‚ÄúAES Galois Counter Mode (GCM) Cipher Suites for TLS,‚Äù RFC 5288, Aug. 2008.
+J. Salowey and A. Choudhury, "ÄúAES Galois Counter Mode (GCM) Cipher Suites for TLS,"Äù RFC 5288, Aug. 2008.
 
 \bibitem{sslImage}
 "What is SSL?," in IdenTrustSSL. [Online]. Available: https://www.identrustssl.com/images/learn\_ssl\_diagram.gif. Accessed: Dec. 14, 2016.
 
 \bibitem{coprocesserWhitePaper}
-‚ÄúBuilding a high-performance, programmable secure coprocessor,‚Äù Comput.
-Netw., vol. 31, no. 9, pp. 831‚Äì860, Apr. 1999. [Online]. Available:
+"Building a high-performance, programmable secure coprocessor," Comput.
+Netw., vol. 31, no. 9, pp. 831'860, Apr. 1999. [Online]. Available:
 http://dl.acm.org/citation.cfm?id=324119.324128
 
 \bibitem{httpsPush}
 D. Goodin, "In major shift, Google boosts search rankings of HTTPS-protected sites," Ars Technica, 2014. [Online]. Available: http://arstechnica.com/security/2014/08/in-major-shift-google-boosts-search-rankings-of-https-protected-sites/. Accessed: Dec. 14, 2016.
 
 \bibitem{sslGPU}
-K. Jang and S. Han et al., ‚ÄúAccelerating SSL with GPUs,‚Äù ACM
+K. Jang and S. Han et al., "Accelerating SSL with GPUs," ACM
 SIGCOMM Computer Communication Review, vol. 41, issue 1,
 January 2011
 
@@ -792,13 +802,13 @@ January 2011
 Broadcom, "BCM5821," in Elcodis. [Online]. Available: http://datasheet.elcodis.com/pdf2/71/46/714600/bcm5825a1kpbg.pdf. Accessed: Dec. 14, 2016.
 
 \bibitem{AES1}
-R. C., "AES-NI in Laymen‚Äôs Terms," in Intel, 2012. [Online]. Available: https://software.intel.com/en-us/blogs/2012/01/11/aes-ni-in-laymens-terms. Accessed: Dec. 14, 2016.
+R. C., "AES-NI in Laymen's Terms," in Intel, 2012. [Online]. Available: https://software.intel.com/en-us/blogs/2012/01/11/aes-ni-in-laymens-terms. Accessed: Dec. 14, 2016.
 
 \bibitem{AES2}
 J. Rott, "Intel¬Æ Advanced Encryption Standard Instructions (AES-NI)," in Intel, 2012. [Online]. Available: https://software.intel.com/en-us/articles/intel-advanced-encryption-standard-instructions-aes-ni. Accessed: Dec. 14, 2016.
 
 \bibitem{IEEERNG}
-G. Taylor and G. Cox, "Behind Intel‚Äôs new random-number generator," in IEEE, IEEE Spectrum: Technology, Engineering, and Science News, 2011. [Online]. Available: http://spectrum.ieee.org/computing/hardware/behind-intels-new-randomnumber-generator. Accessed: Dec. 14, 2016.
+G. Taylor and G. Cox, "Behind Intel"Äôs new random-number generator," in IEEE, IEEE Spectrum: Technology, Engineering, and Science News, 2011. [Online]. Available: http://spectrum.ieee.org/computing/hardware/behind-intels-new-randomnumber-generator. Accessed: Dec. 14, 2016.
 
 \end{thebibliography}
 
