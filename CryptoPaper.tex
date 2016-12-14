@@ -516,7 +516,16 @@ In the course of using an ecommerce web page, a user may only require a single S
 
 \subsection{Secure Cryptoprocessors}
 
+Secure Cryptoprocessors form the heart of many security based devices.  The Primary focus of these processors is not acceleration or performance, but of performing cryptographic operations in a single tamper proof location \cite{coprocesserWhitePaper}.  When utilizing encryption in any form, it is common for one end of the session, if not both, to be in a non-secure location.  An example of this could be as mundane as a desktop sitting in an internet cafe.  Without explicit guardianship of the physical device, it is conceivable that an adversary would be able to gain access to the hardware in order to either extract key information, or modify it in such a way as to produce the information at a later time.  If this key material were to be lost to the adversary, impersonation of the user, and the decrypting of communications for both sender and receiver could occur.  There is no software or algorithm that could prevent this from occuring, as is encapsulated in the The purpose of a secure cryptoprocessor is to alleviate this oncern.  
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=8cm,keepaspectratio]{img/coprocessorDiagram.png}
+	\caption{Secure Cryptoprocessor Diagram \cite{coprocesserWhitePaper} }
+	\label{coprocessorDiagram}
+\end{figure}
+
+In Figure \ref{coprocessorDiagram} a secure cryptoprocessor block diagram can be seen.  Although this particular processor is from a theoretical white paper, it will serve to demonstrate operations.  As can be expected, scant details are the norm regarding anything to do with security, especially so with cryptography.  At the peripherary of the block diagram is the physical security boundary.  This construct is common to all cryptoprocessors and is the demarcation point where no unencrypted information is allowd to pass.  All keys, all processing, must occur and be stored behind that boundary, unless it has been encrypted.  This boundary is not only figurative, it is a literal physical boundary.  The processor is enmeshed in a conductive grid \cite{coprocesserWhitePaper} which allows any physical tampering to be detected.  In the event that tampering is detected, the key material, at the very least, is deleted by zeroizing the memory.  Ideally the operating system is also zeroized along with any other information.  In this way, it can be assured that key material on the chip stays on the chip, and can not be removed, at least in a physical manner.
 
 \subsection{SSL Acceleration}
 
@@ -707,7 +716,10 @@ J. Salowey and A. Choudhury, “AES Galois Counter Mode (GCM) Cipher Suites for 
 \bibitem{sslImage}
 "What is SSL?," in IdenTrustSSL. [Online]. Available: https://www.identrustssl.com/images/learn\_ssl\_diagram.gif. Accessed: Dec. 14, 2016.
 
-
+\bibitem{coprocesserWhitePaper}
+“Building a high-performance, programmable secure coprocessor,” Comput.
+Netw., vol. 31, no. 9, pp. 831–860, Apr. 1999. [Online]. Available:
+http://dl.acm.org/citation.cfm?id=324119.324128
 
 \end{thebibliography}
 
